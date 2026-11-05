@@ -14,6 +14,9 @@ Suppose your instance is running and has a public IP address, but `ssh` cannot c
 
 **Your answer:** Which path did you take in the console (service → page → tab)?
 
+To find it I took: EC2 -> Network and Security -> Security Groups -> Launch wizard1 -> Inbound rules
+
+
 ...
 
 ## 2. Lambda: why didn't my function run?
@@ -26,6 +29,8 @@ Suppose you uploaded a new book to your bucket, but several minutes later MongoD
 
 **Your answer:** Which path did you take in the console (service → page → tab)?
 
+I took the path: Lambda -> Functions -> book-analyzer-dev-analyze_new_book -> Configurations -> Triggers
+
 ...
 
 ## 3. Lambda: where do I find the error?
@@ -37,6 +42,8 @@ Suppose the function did start, but MongoDB still has no document for the book. 
 *Hint:* [Part 2, Step 7](README.md#step-7-upload-a-new-book) in the README, and the class demo [A Lambda function in the AWS Console](https://github.com/ksiller/DS2022/blob/main/demos/07-lambda/README.md), step [7. Check the CloudWatch logs](https://github.com/ksiller/DS2022/blob/main/demos/07-lambda/README.md#7-check-the-cloudwatch-logs).
 
 **Your answer:** Which path did you take in the console (service → page → tab)?
+
+I used: Lambda -> Functions -> Monitor -> View Cloudwatch logs -> Log streams -> The only stream there
 
 ...
 
@@ -53,5 +60,9 @@ For comparison, typical times in this lab:
 - **Lambda** (512 MB): about 2 seconds for one book, including about 1 second to start the function the first time (a cold start). The function runs, and costs, only while a book is analyzed.
 
 **Your answer:**
+
+Case A: EC2. This is a one-time batch job, and at about 20 seconds per 100 books, 5,000 books would take about 17 minutes on one instance, which I can terminate when it finishes. The books are also already in the bucket, so they wouldn't trigger my Lambda function, which only runs on new uploads.
+
+Case B: Lambda. Uploads arrive at random times and only a few per day, so an EC2 instance would cost money while sitting idle. Lambda runs only when a book is uploaded, costs nothing in between, and finishes in about 2 seconds, well within the one-minute requirement.
 
 ...
